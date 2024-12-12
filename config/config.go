@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/joho/godotenv"
 )
@@ -44,6 +45,13 @@ func init() {
 	if DB_HOST == "" {
 		log.Fatalf("DB_HOST not set, but required")
 	}
+
+	dbPortStr := os.Getenv("DB_PORT")
+	dbPort, err := strconv.Atoi(dbPortStr)
+	if err != nil {
+		log.Fatalf("Error converting DB_PORT to a number: %v", err)
+	}
+	DB_PORT = dbPort
 
 	HTTP_HOST = os.Getenv("HTTP_HOST")
 	if HTTP_HOST == "" {
