@@ -9,6 +9,7 @@ import (
 	"github.com/drizzleent/nft-transactor/config"
 	"github.com/drizzleent/nft-transactor/controller"
 	"github.com/drizzleent/nft-transactor/db"
+	"github.com/drizzleent/nft-transactor/repository"
 	"github.com/drizzleent/nft-transactor/routes"
 	"github.com/drizzleent/nft-transactor/service"
 )
@@ -17,6 +18,7 @@ type App struct {
 	mux *http.ServeMux
 
 	db              *sql.DB
+	tokenRepository repository.TokenRepository
 	tokenService    service.TokenService
 	tokenController *controller.TokenController
 }
@@ -53,20 +55,23 @@ func (a *App) DBClient() *sql.DB {
 	return a.db
 }
 
-func (a *App) TokenRepository() {
-
+func (a *App) TokenRepository() repository.TokenRepository {
+	if a.tokenRepository == nil {
+		a.tokenRepository = repository.NewTokenRepository(a.DBClient())
+	}
+	return a.tokenRepository
 }
 
 func (a *App) TokenService() service.TokenService {
 	if a.tokenService == nil {
-		a.tokenService = service.NewTokenService()
+		a.tokenService = service.NewTokenService(a.TokenRepository())
 	}
 	return a.tokenService
 }
 
 func (a *App) TokenController() *controller.TokenController {
 	if a.tokenController == nil {
-		a.tokenService = controller.NewTokenController(a.TokenService())
+		a.tokenController = controller.NewTokenController(a.TokenService())
 	}
 	return a.tokenController
 }
