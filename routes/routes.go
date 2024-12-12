@@ -1,29 +1,25 @@
 package routes
 
 import (
-	"database/sql"
 	"net/http"
 
 	"github.com/drizzleent/nft-transactor/controller"
 )
 
-func SetupRouter(db *sql.DB) *http.ServeMux {
+func SetupRouter(tc *controller.TokenController) *http.ServeMux {
 	r := http.NewServeMux()
 
 	// TOKENS
 	r.HandleFunc("/tokens/create", func(w http.ResponseWriter, r *http.Request) {
-		tokenController := controller.NewTokenController()
-		tokenController.CreateToken(w, r)
+		tc.CreateToken(w, r)
 	})
 
 	r.HandleFunc("/tokens/list", func(w http.ResponseWriter, r *http.Request) {
-		tokenController := controller.NewTokenController()
-		tokenController.CreateToken(w, r)
+		tc.ListToken(w, r)
 	})
 
 	r.HandleFunc("/tokens/total_supply", func(w http.ResponseWriter, r *http.Request) {
-		tokenController := controller.NewTokenController()
-		tokenController.CreateToken(w, r)
+		tc.TotalSupplyToken(w, r)
 	})
 	//END TOKENS
 
