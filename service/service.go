@@ -76,7 +76,3 @@ func (s *tokenService) TotalSupplyToken() (interface{}, error) {
 
 	return totalSupply, nil
 }
-
-const (
-	totalSupplyABI = `[{"name":"totalSupply","outputs":[{"type":"uint256"}],"type":"function"}]`
-)
