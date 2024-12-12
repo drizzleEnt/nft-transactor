@@ -18,6 +18,10 @@ var (
 
 	HTTP_HOST string
 	HTTP_PORT string
+
+	CONTRACT_ADDRESS string
+	RPC              string
+	TOTAL_SUPPLY_ABI string
 )
 
 func init() {
@@ -61,5 +65,20 @@ func init() {
 	HTTP_PORT = os.Getenv("HTTP_PORT")
 	if HTTP_PORT == "" {
 		log.Fatalf("HTTP_PORT not set, but required")
+	}
+
+	CONTRACT_ADDRESS = os.Getenv("CONTRACT_ADDRESS")
+	if CONTRACT_ADDRESS == "" {
+		log.Fatalf("CONTRACT_ADDRESS not set, but required")
+	}
+
+	RPC = os.Getenv("RPC")
+	if RPC == "" {
+		log.Fatalf("RPC not set, but required")
+	}
+
+	TOTAL_SUPPLY_ABI = os.Getenv("TOTAL_SUPPLY_ABI")
+	if TOTAL_SUPPLY_ABI == "" {
+		log.Fatalf("TOTAL_SUPPLY_ABI not set, but required")
 	}
 }
