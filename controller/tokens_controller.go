@@ -17,6 +17,18 @@ func NewTokenController(srv service.TokenService) *TokenController {
 	}
 }
 
+// CreateToken создает токен и записывает параметры в БД
+// @Summary Создание нового токена
+// @Description Создает уникальный токен в блокчейне и записывает параметры в базу данных
+// @Tags tokens
+// @Accept json
+// @Produce json
+// @Param token body models.CreateTokenRequest true "Параметры токена"
+// @Success 200 {object} models.Token
+// @Failure 400 {object} map[string]string
+// @Failure 405 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /create [post]
 func (tc *TokenController) CreateToken(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		RespondWithError(w, http.StatusMethodNotAllowed, "Method not allowed")
@@ -39,6 +51,18 @@ func (tc *TokenController) CreateToken(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// ListToken возвращает список всех токенов
+// @Summary Получение списка токенов
+// @Description Возвращает список всех объектов модели Token
+// @Tags tokens
+// @Accept json
+// @Produce json
+// @Param limit query string false "Limit"
+// @Param offset query string false "Offset"
+// @Success 200 {object} []models.Token
+// @Failure 405 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /list [get]
 func (tc *TokenController) ListToken(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		RespondWithError(w, http.StatusMethodNotAllowed, "Method not allowed")
@@ -55,6 +79,15 @@ func (tc *TokenController) ListToken(w http.ResponseWriter, r *http.Request) {
 	RespondWithJSON(w, http.StatusOK, response)
 }
 
+// TotalSupplyToken возвращает общее количество токенов в блокчейне
+// @Summary Получение Total Supply токенов
+// @Description Обращается к контракту в блокчейне и возвращает Total Supply токенов
+// @Tags tokens
+// @Produce json
+// @Success 200 {object} map[string]string
+// @Failure 405 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /total_supply [get]
 func (tc *TokenController) TotalSupplyToken(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		RespondWithError(w, http.StatusMethodNotAllowed, "Method not allowed")

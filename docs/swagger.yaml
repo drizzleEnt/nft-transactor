@@ -1,0 +1,133 @@
+basePath: /tokens
+definitions:
+  models.CreateTokenRequest:
+    properties:
+      media_url:
+        type: string
+      owner:
+        type: string
+    type: object
+  models.Token:
+    properties:
+      mediaUrl:
+        type: string
+      owner:
+        type: string
+      txHash:
+        type: string
+      uniqueHash:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  title: NFT API
+  version: "0.1"
+paths:
+  /create:
+    post:
+      consumes:
+      - application/json
+      description: Создает уникальный токен в блокчейне и записывает параметры в базу
+        данных
+      parameters:
+      - description: Параметры токена
+        in: body
+        name: token
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Token'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "405":
+          description: Method Not Allowed
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Создание нового токена
+      tags:
+      - tokens
+  /list:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех объектов модели Token
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: string
+      - description: Offset
+        in: query
+        name: offset
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Token'
+            type: array
+        "405":
+          description: Method Not Allowed
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получение списка токенов
+      tags:
+      - tokens
+  /total_supply:
+    get:
+      description: Обращается к контракту в блокчейне и возвращает Total Supply токенов
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "405":
+          description: Method Not Allowed
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получение Total Supply токенов
+      tags:
+      - tokens
+swagger: "2.0"

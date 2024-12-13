@@ -4,7 +4,7 @@ COPY . /github.com/drizzleent/nft-transactor/source/
 WORKDIR /github.com/drizzleent/nft-transactor/source/
 
 RUN go mod download
-RUN go build -o ./bin/crud_server cmd/main.go
+RUN go build -o ./bin/crud_server ./main.go
 
 FROM alpine:latest
 

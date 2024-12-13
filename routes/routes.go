@@ -3,6 +3,9 @@ package routes
 import (
 	"net/http"
 
+	_ "github.com/drizzleent/nft-transactor/docs"
+	httpSwagger "github.com/swaggo/http-swagger"
+
 	"github.com/drizzleent/nft-transactor/controller"
 )
 
@@ -23,5 +26,6 @@ func SetupRouter(tc *controller.TokenController) *http.ServeMux {
 	})
 	//END TOKENS
 
+	r.Handle("/swagger/*", httpSwagger.WrapHandler)
 	return r
 }

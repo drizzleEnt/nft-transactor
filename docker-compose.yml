@@ -4,16 +4,19 @@ volumes:
   postgres_volume:
 
 services:
-  # app:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   container_name: ps-app
-  #   ports:
-  #     - "${HTTP_PORT}:8080"
-  #   depends_on:
-  #     - pg_nft
-
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ps-app
+    ports:
+      - "${HTTP_PORT}:8080"
+    restart: on-failure
+    depends_on:
+      - pg_nft
+    environment:
+      DB_HOST: pg_nft
+      DB_PORT: "5432"
   pg_nft:
     image: postgres:14-alpine3.17
     container_name: nft-db
