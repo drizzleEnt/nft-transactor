@@ -37,3 +37,5 @@
     {
         "result": int
     }
+
+    Запуск командой docker-compose up -d 
