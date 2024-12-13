@@ -22,6 +22,8 @@ var (
 	CONTRACT_ADDRESS string
 	RPC              string
 	TOTAL_SUPPLY_ABI string
+	MINT_ABI         string
+	PRIVATE_KEY      string
 )
 
 func init() {
@@ -80,5 +82,15 @@ func init() {
 	TOTAL_SUPPLY_ABI = os.Getenv("TOTAL_SUPPLY_ABI")
 	if TOTAL_SUPPLY_ABI == "" {
 		log.Fatalf("TOTAL_SUPPLY_ABI not set, but required")
+	}
+
+	MINT_ABI = os.Getenv("MINT_ABI")
+	if MINT_ABI == "" {
+		log.Fatalf("MINT_ABI not set, but required")
+	}
+
+	PRIVATE_KEY = os.Getenv("PRIVATE_KEY")
+	if PRIVATE_KEY == "" {
+		log.Fatalf("PRIVATE_KEY not set, but required")
 	}
 }

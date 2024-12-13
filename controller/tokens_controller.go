@@ -29,7 +29,7 @@ func (tc *TokenController) CreateToken(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp, err := tc.service.CreateToken(req)
+	resp, err := tc.service.CreateToken(r.Context(), req)
 	if err != nil {
 		RespondWithError(w, http.StatusInternalServerError, err.Error())
 		return
@@ -44,7 +44,15 @@ func (tc *TokenController) ListToken(w http.ResponseWriter, r *http.Request) {
 		RespondWithError(w, http.StatusMethodNotAllowed, "Method not allowed")
 		return
 	}
+	params := converter.FromRequestParamsToModel(r)
 
+	resp, err := tc.service.ListToken(r.Context(), params)
+	if err != nil {
+		RespondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	response := map[string]interface{}{"Tokens": resp}
+	RespondWithJSON(w, http.StatusOK, response)
 }
 
 func (tc *TokenController) TotalSupplyToken(w http.ResponseWriter, r *http.Request) {
@@ -53,7 +61,7 @@ func (tc *TokenController) TotalSupplyToken(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	resp, err := tc.service.TotalSupplyToken()
+	resp, err := tc.service.TotalSupplyToken(r.Context())
 	if err != nil {
 		RespondWithError(w, http.StatusInternalServerError, err.Error())
 		return

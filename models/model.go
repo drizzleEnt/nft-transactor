@@ -11,3 +11,8 @@ type CreateTokenRequest struct {
 	MediaUrl string `json:"media_url"`
 	Owner    string `json:"owner"`
 }
+
+type RequestParams struct {
+	Limit  int
+	Offset int
+}
