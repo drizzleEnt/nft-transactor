@@ -1,0 +1,39 @@
+version: '3'
+
+volumes:
+  postgres_volume:
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ps-app
+    ports:
+      - "${HTTP_PORT}:8080"
+    restart: on-failure
+    depends_on:
+      - pg_nft
+    environment:
+      DB_HOST: pg_nft
+      DB_PORT: "5432"
+  pg_nft:
+    image: postgres:14-alpine3.17
+    container_name: nft-db
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      - "POSTGRES_DB=${DB_NAME}"
+      - "POSTGRES_USER=${DB_USER}"
+      - "POSTGRES_PASSWORD=${DB_PASSWORD}"
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+  
+  migrator_pg:
+    container_name: nft-db-Migrator
+    build:
+      context: .
+      dockerfile: migrations.Dockerfile
+    restart: on-failure
+    environment:
+      DB_HOST: pg_nft
